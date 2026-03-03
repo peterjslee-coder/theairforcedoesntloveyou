@@ -604,7 +604,7 @@
         <div class="message-input-area">
             <input type="text" id="msgName" placeholder="Your name">
             <textarea id="msgText" placeholder="Drop a message, a memory, or tell Pete what you really think..."></textarea>
-            <button class="post-btn" onclick="postMessage()">Post to the Wall</button>
+            <button class="post-btn" onclick="postWallMessage()">Post to the Wall</button>
         </div>
         <div class="messages-list" id="messagesList">
             <div class="no-messages" id="noMessages">No messages yet. Be the first to post!</div>
@@ -671,7 +671,7 @@
     const MSG_API = 'https://script.google.com/macros/s/AKfycbxWob1PKTcxn0Q8nWUoH6ZMPTt4keBKxqjQsHN1mGQZ_h7r13yUitB7j8Uoi6jnR2KW/exec';
     let cachedMsgs = [];
 
-    function postMessage() {
+    function postWallMessage() {
         const name = document.getElementById('msgName').value.trim();
         const text = document.getElementById('msgText').value.trim();
         if (!name || !text) { alert('Please enter your name and a message.'); return; }
