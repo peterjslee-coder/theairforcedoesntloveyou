@@ -334,10 +334,10 @@
 <!-- ===== HERO ===== -->
 <section class="hero" id="home">
     <div class="hero-stars" id="heroStars"></div>
-    <div class="hero-badge">Save the Date</div>
+    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Lee+Family+Retirement+Weekend&dates=20260528/20260531&details=Col+Peter+%22Juice%22+Lee+Retirement+Celebration.+Thu-Sat+activities+in+San+Antonio+area.+RSVP+at+theairforcedoesntloveyou.com&location=Randolph+AFB,+San+Antonio,+TX" target="_blank" class="hero-badge" style="text-decoration:none;cursor:pointer;">Save the Date &#128197;</a>
     <div class="hero-subtitle">United States Air Force</div>
-    <h1>Colonel Peter Lee</h1>
-    <div class="hero-rank">is hanging up his wings</div>
+    <h1>The Lee Family</h1>
+    <div class="hero-rank">Col Peter &ldquo;Juice&rdquo; Lee, Debbie, Caden &amp; Stella are hanging up their wings</div>
     <div class="hero-line"></div>
     <div class="hero-dates" style="font-size:1.4rem; font-weight:600;">Friday, May 29, 2026</div>
     <div class="hero-location" style="font-size:1rem; color:rgba(255,255,255,0.7); margin-bottom:0.3rem;">Retirement Ceremony &amp; Fini-Flight</div>
@@ -359,15 +359,15 @@
             <div class="events-grid">
                 <div class="event-card">
                     <div class="event-icon">&#9992;&#65039;</div>
-                    <h3>Simulators &amp; Taj Tour</h3>
+                    <h3>Simulators &amp; <a href="https://en.wikipedia.org/wiki/Randolph_Air_Force_Base#%22Taj_Mahal%22" target="_blank" style="color:var(--navy);text-decoration:underline;">The Taj</a> Tour</h3>
                     <span class="event-time">Daytime</span>
-                    <p>Get behind the stick one more time (virtually) and take a tour of the Taj. See what Col Lee's been up to all these years.</p>
+                    <p>Get behind the stick one more time (virtually) and take a tour of the Taj. See what Juice has been up to all these years. <em style="font-size:0.85rem;color:#999;">Fair warning: 134 steps to the top, and it will be approximately one billion degrees until you reach the top where there's a nice breeze and a great view.</em></p>
                 </div>
                 <div class="event-card">
                     <div class="event-icon">&#127860;</div>
                     <h3>Welcome Dinner at Lee House</h3>
                     <span class="event-time">Evening</span>
-                    <p>An intimate dinner for out-of-town guests to kick off the weekend. Great food, great company, and plenty of stories.</p>
+                    <p>If you're here, the Lee family would love to have you over to our home to get that full Randolph AFB experience. Great food, great company, and plenty of stories.</p>
                 </div>
             </div>
         </div>
@@ -382,21 +382,31 @@
                 </div>
                 <div class="event-card">
                     <div class="event-icon">&#127866;</div>
-                    <h3>Lunch in the Fighter Bar</h3>
+                    <h3>Lunch in the 435th Fighter Training Squadron</h3>
                     <span class="event-time">After Final Flight</span>
-                    <p>Debrief over lunch in the Fighter Bar. Cold drinks, hot takes, and a few tales that may or may not be exaggerated.</p>
+                    <p>Debrief over lunch in the squadron. Cold drinks, hot takes, and a few tales that may or may not be exaggerated.</p>
                 </div>
                 <div class="event-card highlight">
                     <div class="event-icon">&#127894;</div>
                     <h3>Retirement Ceremony</h3>
                     <span class="event-time">1400 HRS &bull; Parr Club &ldquo;Auger Inn&rdquo;</span>
-                    <p>The official ceremony where Colonel Peter Lee is retired by his brother, Lt Col (Ret) Daniel Lee. A moment to honor years of service and sacrifice.</p>
+                    <p>A brief ceremony to mark the end of one era and the beginning of another for the entire Lee family.</p>
+                    <!-- Crying Poll -->
+                    <div style="margin-top:1rem;padding:1rem;background:rgba(197,165,90,0.15);border-radius:12px;text-align:center;">
+                        <p style="color:var(--gold);font-weight:600;font-size:0.85rem;margin-bottom:0.75rem;">&#127920; Will Juice cry during his own retirement ceremony?</p>
+                        <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;" id="pollOptions">
+                            <button onclick="castVote('yes')" class="poll-btn" style="padding:0.5rem 1rem;border-radius:20px;border:1px solid var(--gold);background:transparent;color:var(--white);cursor:pointer;font-size:0.8rem;transition:all 0.3s;">Absolutely</button>
+                            <button onclick="castVote('no')" class="poll-btn" style="padding:0.5rem 1rem;border-radius:20px;border:1px solid var(--gold);background:transparent;color:var(--white);cursor:pointer;font-size:0.8rem;transition:all 0.3s;">No chance</button>
+                            <button onclick="castVote('allergies')" class="poll-btn" style="padding:0.5rem 1rem;border-radius:20px;border:1px solid var(--gold);background:transparent;color:var(--white);cursor:pointer;font-size:0.8rem;transition:all 0.3s;">Yes, but he'll blame allergies</button>
+                        </div>
+                        <p id="pollResult" style="color:rgba(255,255,255,0.6);font-size:0.75rem;margin-top:0.5rem;"></p>
+                    </div>
                 </div>
                 <div class="event-card">
                     <div class="event-icon">&#127881;</div>
-                    <h3>Celebration in the Bar</h3>
+                    <h3>Party in the Auger Inn Bar</h3>
                     <span class="event-time">After Ceremony</span>
-                    <p>The party continues! Raise a glass (or several) to Col Lee's incredible career.</p>
+                    <p>The party continues! Raise a glass (or several) to the Lee family's incredible career adventures together.</p>
                 </div>
             </div>
         </div>
@@ -439,12 +449,12 @@
         <div class="info-card">
             <div class="info-icon">&#128205;</div>
             <h3>Location</h3>
-            <p>Events are on base and in the local area. Specific addresses and directions will be provided after you RSVP.</p>
+            <p>As details firm up, locations and links will go here. Events are on base and in the local area.</p>
         </div>
         <div class="info-card">
             <div class="info-icon">&#127976;</div>
             <h3>Accommodations</h3>
-            <p>Recommendations for nearby hotels and lodging will be shared with confirmed guests.</p>
+            <p>10 on-base rooms, 10 off-base rooms. Booking links and details coming soon.</p>
         </div>
         <div class="info-card">
             <div class="info-icon">&#128084;</div>
@@ -529,7 +539,7 @@
                     </div>
                     <div class="checkbox-item">
                         <input type="checkbox" id="evt4" value="Lunch Fighter Bar (Fri)">
-                        <label for="evt4">Fri &mdash; Lunch in the Fighter Bar</label>
+                        <label for="evt4">Fri &mdash; Lunch in the 435th FTS</label>
                     </div>
                     <div class="checkbox-item">
                         <input type="checkbox" id="evt5" value="Retirement Ceremony (Fri)">
@@ -537,7 +547,7 @@
                     </div>
                     <div class="checkbox-item">
                         <input type="checkbox" id="evt6" value="Party (Fri)">
-                        <label for="evt6">Fri &mdash; Party in the Bar</label>
+                        <label for="evt6">Fri &mdash; Party in the Auger Inn Bar</label>
                     </div>
                     <div class="checkbox-item">
                         <input type="checkbox" id="evt7" value="Tubing/Golf/Gruene (Sat)">
@@ -657,43 +667,71 @@
         refreshAdmin();
     });
 
-    // Messages
+    // Messages - Google Sheets backend
+    const MSG_API = 'https://script.google.com/macros/s/AKfycbxWob1PKTcxn0Q8nWUoH6ZMPTt4keBKxqjQsHN1mGQZ_h7r13yUitB7j8Uoi6jnR2KW/exec';
+    let cachedMsgs = [];
+
     function postMessage() {
         const name = document.getElementById('msgName').value.trim();
         const text = document.getElementById('msgText').value.trim();
         if (!name || !text) { alert('Please enter your name and a message.'); return; }
 
-        const msgs = getData('ret_msgs');
-        msgs.unshift({ name, text, date: new Date().toISOString() });
-        setData('ret_msgs', msgs);
+        const btn = document.querySelector('.message-input-area .btn');
+        btn.textContent = 'Posting...';
+        btn.disabled = true;
 
-        document.getElementById('msgName').value = '';
-        document.getElementById('msgText').value = '';
-        renderMessages();
+        fetch(MSG_API, {
+            method: 'POST',
+            body: JSON.stringify({ name, text, date: new Date().toISOString() })
+        })
+        .then(r => r.json())
+        .then(() => {
+            document.getElementById('msgName').value = '';
+            document.getElementById('msgText').value = '';
+            btn.textContent = 'Post Message';
+            btn.disabled = false;
+            renderMessages();
+        })
+        .catch(err => {
+            console.error('Post failed:', err);
+            btn.textContent = 'Post Message';
+            btn.disabled = false;
+            alert('Could not post message. Please try again.');
+        });
     }
 
     function renderMessages() {
-        const msgs = getData('ret_msgs');
         const list = document.getElementById('messagesList');
         const noMsg = document.getElementById('noMessages');
+        noMsg.textContent = 'Loading messages...';
+        noMsg.style.display = 'block';
 
-        if (!msgs.length) { noMsg.style.display = 'block'; return; }
-        noMsg.style.display = 'none';
+        fetch(MSG_API)
+        .then(r => r.json())
+        .then(msgs => {
+            cachedMsgs = msgs;
+            list.querySelectorAll('.message-card').forEach(c => c.remove());
+            if (!msgs.length) { noMsg.textContent = 'No messages yet. Be the first to post!'; noMsg.style.display = 'block'; return; }
+            noMsg.style.display = 'none';
 
-        // Remove old cards
-        list.querySelectorAll('.message-card').forEach(c => c.remove());
-
-        msgs.forEach(m => {
-            const card = document.createElement('div');
-            card.className = 'message-card';
-            const d = new Date(m.date);
-            const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            card.innerHTML = `
-                <div class="message-author">${esc(m.name)}</div>
-                <div class="message-date">${dateStr}</div>
-                <div class="message-text">${esc(m.text)}</div>
-            `;
-            list.appendChild(card);
+            // Show newest first
+            msgs.slice().reverse().forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'message-card';
+                const d = new Date(m.date);
+                const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                card.innerHTML = `
+                    <div class="message-author">${esc(m.name)}</div>
+                    <div class="message-date">${dateStr}</div>
+                    <div class="message-text">${esc(m.text)}</div>
+                `;
+                list.appendChild(card);
+            });
+        })
+        .catch(err => {
+            console.error('Load failed:', err);
+            noMsg.textContent = 'Could not load messages. Please refresh.';
+            noMsg.style.display = 'block';
         });
     }
 
@@ -735,10 +773,9 @@
     }
 
     function exportMessagesCSV() {
-        const msgs = getData('ret_msgs');
-        if (!msgs.length) { alert('No messages yet.'); return; }
+        if (!cachedMsgs.length) { alert('No messages yet.'); return; }
         let csv = 'Name,Message,Date\n';
-        msgs.forEach(m => { csv += `"${m.name}","${m.text}","${m.date}"\n`; });
+        cachedMsgs.forEach(m => { csv += `"${m.name}","${m.text}","${m.date}"\n`; });
         downloadCSV(csv, 'retirement_messages.csv');
     }
 
@@ -761,6 +798,197 @@
 
     // Init messages on load
     renderMessages();
+
+    // ===== CRYING POLL =====
+    function castVote(choice) {
+        const votes = JSON.parse(localStorage.getItem('cry_poll') || '{"yes":0,"no":0,"allergies":0}');
+        if (localStorage.getItem('cry_poll_voted')) {
+            document.getElementById('pollResult').textContent = 'You already voted! Results revealed ceremony day.';
+            return;
+        }
+        votes[choice]++;
+        localStorage.setItem('cry_poll', JSON.stringify(votes));
+        localStorage.setItem('cry_poll_voted', 'true');
+        const total = votes.yes + votes.no + votes.allergies;
+        document.getElementById('pollResult').textContent = '✓ Vote cast! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
+        document.querySelectorAll('#pollOptions button').forEach(b => { b.style.opacity = '0.5'; b.style.cursor = 'default'; });
+    }
+    // Show existing vote count
+    (function() {
+        if (localStorage.getItem('cry_poll_voted')) {
+            const votes = JSON.parse(localStorage.getItem('cry_poll') || '{"yes":0,"no":0,"allergies":0}');
+            const total = votes.yes + votes.no + votes.allergies;
+            document.getElementById('pollResult').textContent = '✓ You voted! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
+            document.querySelectorAll('#pollOptions button').forEach(b => { b.style.opacity = '0.5'; b.style.cursor = 'default'; });
+        }
+    })();
+
+    // ===== FEEDBACK WIDGET =====
+    // Saves feedback to a feedback.json FILE in the same folder (via File System Access API)
+    // so Claude can read it directly. Falls back to download if API unavailable.
+    (function() {
+        let feedbackItems = [];
+        let dirHandle = null;
+
+        const fbStyle = document.createElement('style');
+        fbStyle.textContent = `
+            .fb-btn { position: fixed; bottom: 24px; left: 24px; z-index: 9999; width: 52px; height: 52px;
+                border-radius: 50%; background: #2d6a4f; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+                display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+            .fb-btn:hover { background: #40916c; transform: scale(1.08); }
+            .fb-btn svg { width: 26px; height: 26px; fill: #fff; }
+            .fb-count { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: #fff;
+                font-size: 0.65rem; font-weight: 700; width: 20px; height: 20px; border-radius: 50%;
+                display: flex; align-items: center; justify-content: center; }
+            .fb-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.4); display: none;
+                align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+            .fb-overlay.show { display: flex; }
+            .fb-modal { background: #fff; border-radius: 16px; padding: 2rem; width: 90%; max-width: 420px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative; font-family: 'Inter', sans-serif; max-height: 85vh; overflow-y: auto; }
+            .fb-modal h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #1B2A4A; margin-bottom: 1.25rem; }
+            .fb-close { position: absolute; top: 12px; right: 16px; background: none; border: none;
+                font-size: 1.5rem; cursor: pointer; color: #999; line-height: 1; }
+            .fb-close:hover { color: #333; }
+            .fb-label { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px;
+                text-transform: uppercase; color: #666; margin-bottom: 0.4rem; }
+            .fb-select, .fb-textarea { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd;
+                border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #333;
+                transition: border-color 0.3s; margin-bottom: 1rem; }
+            .fb-select:focus, .fb-textarea:focus { outline: none; border-color: #C5A55A; }
+            .fb-textarea { resize: vertical; min-height: 90px; }
+            .fb-submit { width: 100%; padding: 0.8rem; background: #1B2A4A; color: #E8D5A3; border: none;
+                border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;
+                letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
+            .fb-submit:hover { background: #2a3f6a; }
+            .fb-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+            .fb-success { text-align: center; padding: 1.5rem 0; }
+            .fb-success .check { font-size: 2.5rem; margin-bottom: 0.5rem; }
+            .fb-success p { color: #666; font-size: 0.95rem; }
+            .fb-req { color: #C5A55A; font-size: 0.7rem; margin-left: 4px; }
+            .fb-save-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+            .fb-save-btn { flex: 1; padding: 0.6rem; border-radius: 50px; font-family: 'Inter', sans-serif;
+                font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; }
+            .fb-save-file { background: #2d6a4f; color: #fff; }
+            .fb-save-file:hover { background: #40916c; }
+            .fb-item { background: #f8f8f8; border-radius: 10px; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.85rem; }
+            .fb-item-cat { font-weight: 600; color: #1B2A4A; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+            .fb-item-desc { color: #444; margin-top: 0.25rem; }
+        `;
+        document.head.appendChild(fbStyle);
+
+        function getCurrentSection() {
+            const sections = ['home','schedule','gallery','info','rsvp','messages'];
+            let current = 'General Feedback';
+            for (const id of sections) {
+                const el = document.getElementById(id);
+                if (el && el.getBoundingClientRect().top <= 200) {
+                    const names = { home:'Hero / Header', schedule:'Schedule', gallery:'Photo Gallery',
+                        info:'Details / Info', rsvp:'RSVP Form', messages:'Message Wall' };
+                    current = names[id] || id;
+                }
+            }
+            return current;
+        }
+
+        const btn = document.createElement('button');
+        btn.className = 'fb-btn';
+        btn.title = 'Share Feedback';
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg><span class="fb-count" id="fbCount" style="display:none">0</span>';
+        document.body.appendChild(btn);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'fb-overlay';
+        overlay.innerHTML = `
+            <div class="fb-modal">
+                <button class="fb-close">&times;</button>
+                <h2>Share Feedback</h2>
+                <div id="fbForm">
+                    <label class="fb-label">Category</label>
+                    <select class="fb-select" id="fbCat">
+                        <option>General Feedback</option>
+                        <option>Hero / Header</option>
+                        <option>Schedule</option>
+                        <option>Photo Gallery</option>
+                        <option>Details / Info</option>
+                        <option>RSVP Form</option>
+                        <option>Message Wall</option>
+                    </select>
+                    <label class="fb-label">Description <span class="fb-req">(required)</span></label>
+                    <textarea class="fb-textarea" id="fbDesc" placeholder="Tell us what's on your mind..."></textarea>
+                    <button class="fb-submit" id="fbSubmit">Add Feedback</button>
+                </div>
+                <div id="fbList" style="margin-top:1rem;"></div>
+                <div class="fb-save-row" id="fbSaveRow" style="display:none;">
+                    <button class="fb-save-btn fb-save-file" id="fbSaveFile">Save feedback.json to folder</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        function updateCount() {
+            const el = document.getElementById('fbCount');
+            if (feedbackItems.length > 0) { el.style.display = 'flex'; el.textContent = feedbackItems.length; }
+            else { el.style.display = 'none'; }
+        }
+
+        function renderList() {
+            const list = document.getElementById('fbList');
+            const saveRow = document.getElementById('fbSaveRow');
+            if (!feedbackItems.length) { list.innerHTML = ''; saveRow.style.display = 'none'; return; }
+            saveRow.style.display = 'flex';
+            list.innerHTML = feedbackItems.map((item, i) =>
+                '<div class="fb-item"><div class="fb-item-cat">' + item.category + '</div><div class="fb-item-desc">' + item.description + '</div></div>'
+            ).join('');
+        }
+
+        btn.addEventListener('click', () => {
+            document.getElementById('fbCat').value = getCurrentSection();
+            overlay.classList.add('show');
+        });
+
+        overlay.querySelector('.fb-close').addEventListener('click', () => overlay.classList.remove('show'));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+
+        document.getElementById('fbSubmit').addEventListener('click', () => {
+            const desc = document.getElementById('fbDesc').value.trim();
+            if (!desc) { document.getElementById('fbDesc').style.borderColor = '#e74c3c'; return; }
+            feedbackItems.push({
+                timestamp: new Date().toISOString(),
+                category: document.getElementById('fbCat').value,
+                description: desc,
+                scrollPosition: Math.round(window.scrollY)
+            });
+            document.getElementById('fbDesc').value = '';
+            document.getElementById('fbDesc').style.borderColor = '#ddd';
+            updateCount();
+            renderList();
+        });
+
+        // Save as file — uses File System Access API to write directly to the folder
+        document.getElementById('fbSaveFile').addEventListener('click', async () => {
+            const json = JSON.stringify(feedbackItems, null, 2);
+            try {
+                if (window.showSaveFilePicker) {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'feedback.json',
+                        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(json);
+                    await writable.close();
+                    document.getElementById('fbSaveFile').textContent = '✓ Saved!';
+                    setTimeout(() => { document.getElementById('fbSaveFile').textContent = 'Save feedback.json to folder'; }, 2000);
+                } else {
+                    // Fallback: download
+                    const blob = new Blob([json], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = 'feedback.json'; a.click();
+                    URL.revokeObjectURL(url);
+                }
+            } catch(e) { console.log('Save cancelled or failed', e); }
+        });
+    })();
 </script>
 
 </body>
