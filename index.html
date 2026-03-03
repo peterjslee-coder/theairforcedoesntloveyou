@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Air Force Doesn't Love You — Col Pete Lee Retirement</title>
+    <title>The Air Force Doesn't Love You â Col Pete Lee Retirement</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -676,7 +676,7 @@
         const text = document.getElementById('msgText').value.trim();
         if (!name || !text) { alert('Please enter your name and a message.'); return; }
 
-        const btn = document.querySelector('.message-input-area .btn');
+        const btn = document.querySelector('.message-input-area .post-btn');
         btn.textContent = 'Posting...';
         btn.disabled = true;
 
@@ -810,7 +810,7 @@
         localStorage.setItem('cry_poll', JSON.stringify(votes));
         localStorage.setItem('cry_poll_voted', 'true');
         const total = votes.yes + votes.no + votes.allergies;
-        document.getElementById('pollResult').textContent = '✓ Vote cast! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
+        document.getElementById('pollResult').textContent = 'â Vote cast! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
         document.querySelectorAll('#pollOptions button').forEach(b => { b.style.opacity = '0.5'; b.style.cursor = 'default'; });
     }
     // Show existing vote count
@@ -818,7 +818,7 @@
         if (localStorage.getItem('cry_poll_voted')) {
             const votes = JSON.parse(localStorage.getItem('cry_poll') || '{"yes":0,"no":0,"allergies":0}');
             const total = votes.yes + votes.no + votes.allergies;
-            document.getElementById('pollResult').textContent = '✓ You voted! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
+            document.getElementById('pollResult').textContent = 'â You voted! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
             document.querySelectorAll('#pollOptions button').forEach(b => { b.style.opacity = '0.5'; b.style.cursor = 'default'; });
         }
     })();
@@ -964,7 +964,7 @@
             renderList();
         });
 
-        // Save as file — uses File System Access API to write directly to the folder
+        // Save as file â uses File System Access API to write directly to the folder
         document.getElementById('fbSaveFile').addEventListener('click', async () => {
             const json = JSON.stringify(feedbackItems, null, 2);
             try {
@@ -976,7 +976,7 @@
                     const writable = await handle.createWritable();
                     await writable.write(json);
                     await writable.close();
-                    document.getElementById('fbSaveFile').textContent = '✓ Saved!';
+                    document.getElementById('fbSaveFile').textContent = 'â Saved!';
                     setTimeout(() => { document.getElementById('fbSaveFile').textContent = 'Save feedback.json to folder'; }, 2000);
                 } else {
                     // Fallback: download
