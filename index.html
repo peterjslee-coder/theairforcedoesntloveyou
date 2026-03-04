@@ -290,12 +290,12 @@
         .rsvp-table th { color: var(--gold-light); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.65rem; }
         .rsvp-table td { color: rgba(255,255,255,0.8); }
         .admin-toggle {
-            position: fixed; bottom: 1rem; right: 1rem; background: var(--navy);
-            color: var(--gold); border: 1px solid var(--gold); padding: 0.5rem 1rem;
-            border-radius: 8px; cursor: pointer; font-size: 0.75rem; z-index: 999;
-            opacity: 0.3; transition: opacity 0.3s;
+            position: fixed; bottom: 0.5rem; right: 0.5rem; background: transparent;
+            color: rgba(197,165,90,0.15); border: none; padding: 0.3rem 0.5rem;
+            border-radius: 4px; cursor: pointer; font-size: 0.6rem; z-index: 999;
+            opacity: 1; transition: color 0.3s;
         }
-        .admin-toggle:hover { opacity: 1; }
+        .admin-toggle:hover { color: var(--gold); }
         .export-btn {
             display: inline-block; padding: 0.5rem 1.5rem; background: var(--gold);
             color: var(--navy); border: none; border-radius: 8px; font-weight: 600;
@@ -569,28 +569,7 @@
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
-        <h3>RSVP Responses</h3>
-        <div class="rsvp-count" id="rsvpCount">0 responses</div>
-        <button class="export-btn" onclick="exportRSVPCSV()">Export RSVPs (CSV)</button>
-        <button class="export-btn" onclick="exportMessagesCSV()">Export Messages (CSV)</button>
-        <table class="rsvp-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Guests</th>
-                    <th>Arriving</th>
-                    <th>Departing</th>
-                    <th>Base Access</th>
-                    <th>Events</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody id="rsvpTableBody"></tbody>
-        </table>
-    </div>
+
 </section>
 
 <!-- ===== MESSAGE BOARD ===== -->
@@ -618,6 +597,25 @@
     <p style="margin-top:0.5rem; font-size:0.75rem; opacity:0.4;">theairforcedoesntloveyou.com</p>
 </footer>
 
+<!-- Admin Panel (hidden below footer) -->
+<div id="adminWrapper" style="display:none; background: var(--navy); border-top: 1px solid rgba(197,165,90,0.15); padding: 1rem 0 2rem;">
+    <div class="admin-panel show" id="adminPanel" style="display:block;">
+        <h3>RSVP Responses</h3>
+        <div class="rsvp-count" id="rsvpCount">0 responses</div>
+        <button class="export-btn" onclick="exportRSVPCSV()">Export RSVPs (CSV)</button>
+        <button class="export-btn" onclick="exportMessagesCSV()">Export Messages (CSV)</button>
+        <table class="rsvp-table">
+            <thead>
+                <tr>
+                    <th>Name</th><th>Email</th><th>Guests</th>
+                    <th>Arriving</th><th>Departing</th><th>Base Access</th>
+                    <th>Events</th><th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="rsvpTableBody"></tbody>
+        </table>
+    </div>
+</div>
 <button class="admin-toggle" id="adminToggle" title="Admin View">&#9881;</button>
 
 <script>
@@ -752,9 +750,22 @@
 
     function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-    // Admin
+    // Admin (passcode-protected)
+    const ADMIN_CODE = 'juice';
+    let adminUnlocked = false;
     document.getElementById('adminToggle').addEventListener('click', function() {
-        document.getElementById('adminPanel').classList.toggle('show');
+        const wrapper = document.getElementById('adminWrapper');
+        if (wrapper.style.display !== 'none') {
+            wrapper.style.display = 'none';
+            return;
+        }
+        if (!adminUnlocked) {
+            const code = prompt('Enter admin code:');
+            if (code !== ADMIN_CODE) { alert('Nope.'); return; }
+            adminUnlocked = true;
+        }
+        wrapper.style.display = 'block';
+        wrapper.scrollIntoView({behavior: 'smooth'});
         refreshAdmin();
     });
 
