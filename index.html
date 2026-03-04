@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Air Force Doesn't Love You â Col Pete Lee Retirement</title>
+    <title>The Air Force Doesn't Love You Ã¢ÂÂ Col Pete Lee Retirement</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -639,7 +639,10 @@
     function getData(key) { try { return JSON.parse(localStorage.getItem(key)||'[]'); } catch { return []; } }
     function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
-    // RSVP
+    // RSVP - Google Sheets backend
+    const RSVP_API = MSG_API; // same endpoint, different type param
+    let cachedRsvps = [];
+
     document.getElementById('rsvpForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const events = [];
@@ -647,24 +650,36 @@
         const baseAccess = document.querySelector('input[name="baseAccess"]:checked');
 
         const data = {
+            type: 'rsvp',
             name: document.getElementById('rsvpName').value.trim(),
             email: document.getElementById('rsvpEmail').value.trim(),
             guests: document.getElementById('rsvpGuests').value,
             arrival: document.getElementById('rsvpArrival').value,
             departure: document.getElementById('rsvpDeparture').value,
             baseAccess: baseAccess ? baseAccess.value : 'No',
-            events: events,
+            events: events.join('; '),
             notes: document.getElementById('rsvpNotes').value.trim(),
             timestamp: new Date().toISOString()
         };
 
-        const rsvps = getData('ret_rsvps');
-        rsvps.push(data);
-        setData('ret_rsvps', rsvps);
+        const submitBtn = document.querySelector('#rsvpForm .submit-btn');
+        if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
 
-        document.getElementById('rsvpForm').style.display = 'none';
-        document.getElementById('formSuccess').classList.add('show');
-        refreshAdmin();
+        fetch(RSVP_API, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+        .then(r => r.json())
+        .then(() => {
+            document.getElementById('rsvpForm').style.display = 'none';
+            document.getElementById('formSuccess').classList.add('show');
+            refreshAdmin();
+        })
+        .catch(err => {
+            console.error('RSVP post failed:', err);
+            if (submitBtn) { submitBtn.textContent = 'Submit RSVP'; submitBtn.disabled = false; }
+            alert('Could not submit RSVP. Please try again.');
+        });
     });
 
     // Messages - Google Sheets backend
@@ -744,30 +759,39 @@
     });
 
     function refreshAdmin() {
-        const rsvps = getData('ret_rsvps');
         const tbody = document.getElementById('rsvpTableBody');
         tbody.innerHTML = '';
-        document.getElementById('rsvpCount').textContent = rsvps.length + ' response' + (rsvps.length !== 1 ? 's' : '');
-        rsvps.forEach(r => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${esc(r.guests)}</td>
-                <td>${esc(r.arrival||'')}</td><td>${esc(r.departure||'')}</td>
-                <td>${esc(r.baseAccess||'')}</td>
-                <td>${esc(r.events?r.events.join(', '):'')}</td>
-                <td>${esc(r.notes||'')}</td>
-            `;
-            tbody.appendChild(row);
+        document.getElementById('rsvpCount').textContent = 'Loading...';
+
+        fetch(RSVP_API + '?type=rsvps')
+        .then(r => r.json())
+        .then(rsvps => {
+            cachedRsvps = rsvps;
+            document.getElementById('rsvpCount').textContent = rsvps.length + ' response' + (rsvps.length !== 1 ? 's' : '');
+            rsvps.forEach(r => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${esc(r.name||'')}</td><td>${esc(r.email||'')}</td><td>${esc(r.guests||'')}</td>
+                    <td>${esc(r.arrival||'')}</td><td>${esc(r.departure||'')}</td>
+                    <td>${esc(r.baseAccess||'')}</td>
+                    <td>${esc(r.events||'')}</td>
+                    <td>${esc(r.notes||'')}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        })
+        .catch(err => {
+            console.error('Load RSVPs failed:', err);
+            document.getElementById('rsvpCount').textContent = 'Could not load RSVPs.';
         });
     }
 
     // Export
     function exportRSVPCSV() {
-        const rsvps = getData('ret_rsvps');
-        if (!rsvps.length) { alert('No RSVPs yet.'); return; }
+        if (!cachedRsvps.length) { alert('No RSVPs yet.'); return; }
         let csv = 'Name,Email,Guests,Arrival,Departure,Base Access,Events,Notes,Timestamp\n';
-        rsvps.forEach(r => {
-            csv += `"${r.name}","${r.email}","${r.guests}","${r.arrival||''}","${r.departure||''}","${r.baseAccess||''}","${(r.events||[]).join('; ')}","${r.notes||''}","${r.timestamp}"\n`;
+        cachedRsvps.forEach(r => {
+            csv += `"${r.name||''}","${r.email||''}","${r.guests||''}","${r.arrival||''}","${r.departure||''}","${r.baseAccess||''}","${r.events||''}","${r.notes||''}","${r.timestamp||''}"\n`;
         });
         downloadCSV(csv, 'retirement_rsvps.csv');
     }
@@ -810,7 +834,7 @@
         localStorage.setItem('cry_poll', JSON.stringify(votes));
         localStorage.setItem('cry_poll_voted', 'true');
         const total = votes.yes + votes.no + votes.allergies;
-        document.getElementById('pollResult').textContent = 'â Vote cast! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
+        document.getElementById('pollResult').textContent = 'Ã¢ÂÂ Vote cast! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
         document.querySelectorAll('#pollOptions button').forEach(b => { b.style.opacity = '0.5'; b.style.cursor = 'default'; });
     }
     // Show existing vote count
@@ -818,7 +842,7 @@
         if (localStorage.getItem('cry_poll_voted')) {
             const votes = JSON.parse(localStorage.getItem('cry_poll') || '{"yes":0,"no":0,"allergies":0}');
             const total = votes.yes + votes.no + votes.allergies;
-            document.getElementById('pollResult').textContent = 'â You voted! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
+            document.getElementById('pollResult').textContent = 'Ã¢ÂÂ You voted! ' + total + ' vote' + (total !== 1 ? 's' : '') + ' so far. Results revealed ceremony day!';
             document.querySelectorAll('#pollOptions button').forEach(b => { b.style.opacity = '0.5'; b.style.cursor = 'default'; });
         }
     })();
@@ -964,7 +988,7 @@
             renderList();
         });
 
-        // Save as file â uses File System Access API to write directly to the folder
+        // Save as file Ã¢ÂÂ uses File System Access API to write directly to the folder
         document.getElementById('fbSaveFile').addEventListener('click', async () => {
             const json = JSON.stringify(feedbackItems, null, 2);
             try {
@@ -976,7 +1000,7 @@
                     const writable = await handle.createWritable();
                     await writable.write(json);
                     await writable.close();
-                    document.getElementById('fbSaveFile').textContent = 'â Saved!';
+                    document.getElementById('fbSaveFile').textContent = 'Ã¢ÂÂ Saved!';
                     setTimeout(() => { document.getElementById('fbSaveFile').textContent = 'Save feedback.json to folder'; }, 2000);
                 } else {
                     // Fallback: download
