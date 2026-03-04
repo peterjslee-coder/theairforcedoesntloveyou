@@ -640,7 +640,7 @@
     function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
     // RSVP - Google Sheets backend
-    const RSVP_API = MSG_API;
+    const RSVP_API = 'https://script.google.com/macros/s/AKfycbxWob1PKTcxn0Q8nWUoH6ZMPTt4keBKxqjQsHN1mGQZ_h7r13yUitB7j8Uoi6jnR2KW/exec';
     let cachedRsvps = [];
 
     document.getElementById('rsvpForm').addEventListener('submit', function(e) {
