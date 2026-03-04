@@ -296,6 +296,21 @@
             opacity: 1; transition: color 0.3s;
         }
         .admin-toggle:hover { color: var(--gold); }
+        .admin-lock {
+            display: none; position: fixed; bottom: 2.5rem; right: 0.5rem;
+            background: var(--navy); border: 1px solid rgba(197,165,90,0.3);
+            border-radius: 8px; padding: 0.4rem; z-index: 999;
+        }
+        .admin-lock.show { display: flex; align-items: center; gap: 0.3rem; }
+        .admin-lock input {
+            width: 80px; padding: 0.25rem 0.4rem; background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(197,165,90,0.3); border-radius: 4px;
+            color: var(--gold); font-size: 0.7rem; outline: none;
+        }
+        .admin-lock button {
+            padding: 0.25rem 0.5rem; background: var(--gold); color: var(--navy);
+            border: none; border-radius: 4px; font-size: 0.65rem; cursor: pointer; font-weight: 600;
+        }
         .export-btn {
             display: inline-block; padding: 0.5rem 1.5rem; background: var(--gold);
             color: var(--navy); border: none; border-radius: 8px; font-weight: 600;
@@ -616,6 +631,7 @@
         </table>
     </div>
 </div>
+<div class="admin-lock" id="adminLock"><input type="password" id="adminCodeInput" placeholder="code"><button id="adminCodeBtn">Go</button></div>
 <button class="admin-toggle" id="adminToggle" title="Admin View">&#9881;</button>
 
 <script>
@@ -750,24 +766,42 @@
 
     function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-    // Admin (passcode-protected)
+    // Admin
     const ADMIN_CODE = 'juice';
     let adminUnlocked = false;
     document.getElementById('adminToggle').addEventListener('click', function() {
         const wrapper = document.getElementById('adminWrapper');
+        const lock = document.getElementById('adminLock');
         if (wrapper.style.display !== 'none') {
             wrapper.style.display = 'none';
             return;
         }
         if (!adminUnlocked) {
-            const code = prompt('Enter admin code:');
-            if (code !== ADMIN_CODE) { alert('Nope.'); return; }
-            adminUnlocked = true;
+            lock.classList.toggle('show');
+            document.getElementById('adminCodeInput').focus();
+            return;
         }
         wrapper.style.display = 'block';
         wrapper.scrollIntoView({behavior: 'smooth'});
         refreshAdmin();
     });
+    document.getElementById('adminCodeBtn').addEventListener('click', tryAdminCode);
+    document.getElementById('adminCodeInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') tryAdminCode();
+    });
+    function tryAdminCode() {
+        const input = document.getElementById('adminCodeInput');
+        if (input.value === ADMIN_CODE) {
+            adminUnlocked = true;
+            document.getElementById('adminLock').classList.remove('show');
+            document.getElementById('adminWrapper').style.display = 'block';
+            document.getElementById('adminWrapper').scrollIntoView({behavior: 'smooth'});
+            refreshAdmin();
+        } else {
+            input.value = '';
+            input.placeholder = 'nope';
+        }
+    }
 
     function refreshAdmin() {
         const tbody = document.getElementById('rsvpTableBody');
