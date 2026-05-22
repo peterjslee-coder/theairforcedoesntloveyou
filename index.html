@@ -959,8 +959,7 @@
         });
     }
 
-    function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; } function formatBody(t) { if (!t) return ''; var h = esc(t); h = h.replace(/(https?:\/\/[^\s<]+)/g, function(u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + u + '</a>'; }); return h.replace(/
-/g, '<br>'); }
+    function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; } function formatBody(t) { if (!t) return ''; var h = esc(t); h = h.replace(/(https?:\/\/[^\s<]+)/g, function(u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + u + '</a>'; }); return h.split(String.fromCharCode(10)).join('<br>'); }
 
     // Admin
     const ADMIN_CODE = 'juice';
