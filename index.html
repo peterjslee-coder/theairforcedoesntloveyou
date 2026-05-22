@@ -930,7 +930,7 @@
         noMsg.textContent = 'Loading messages...';
         noMsg.style.display = 'block';
 
-        fetch(MSG_API)
+        fetch(MSG_API + '?type=messages')
         .then(r => r.json())
         .then(msgs => {
             cachedMsgs = msgs;
