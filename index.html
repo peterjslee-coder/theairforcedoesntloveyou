@@ -959,7 +959,8 @@
         });
     }
 
-    function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; } function formatBody(t) { if (!t) return ''; var h = esc(t); h = h.replace(/(https?:\/\/[^\s<]+)/g, function(u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + u + '</a>'; }); return h.replace(/
+/g, '<br>'); }
 
     // Admin
     const ADMIN_CODE = 'juice';
@@ -1129,7 +1130,7 @@
                             ${adminUnlocked ? '<button class="update-delete" onclick="deleteUpdate(\'' + esc(updateId) + '\')">delete</button>' : ''}
                         </div>
                         <div class="update-title">${esc(u.title)}</div>
-                        <div class="update-body">${u.body}</div>
+                        <div class="update-body">${formatBody(u.body)}</div>
                     </div>
                     <div class="replies-section">
                         <button class="replies-toggle" onclick="toggleReplies(this)">
