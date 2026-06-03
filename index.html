@@ -486,7 +486,7 @@
             <span class="upload-chev">&#9660;</span>
         </summary>
         <div class="upload-body">
-            <label class="upload-field-label">Your name <span class="upload-req">*</span></label>
+            <label class="upload-field-label">Your name <span style="color:rgba(255,255,255,0.45);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
             <input type="text" id="uploaderName" class="upload-input" placeholder="So we know who shared them" autocomplete="name">
             <label class="upload-pick" id="uploadPickLabel">
                 <input type="file" id="uploadInput" accept="image/*" multiple style="display:none;">
@@ -543,8 +543,10 @@
     .photo-caption { background:rgba(0,0,0,0.5); color:rgba(255,255,255,0.9); padding:0.5rem 0.75rem;
         font-size:0.78rem; display:flex; align-items:center; justify-content:space-between; gap:0.5rem; }
     .photo-caption .by { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .photo-caption .dl { color:var(--gold-light); text-decoration:none; font-size:1rem; padding:0 0.25rem; }
-    .photo-caption .dl:hover { color:var(--gold); }
+    .photo-caption .dl { color:var(--navy); background:var(--gold-light); border:none; border-radius:14px;
+        font-size:0.75rem; font-weight:600; letter-spacing:0.3px; padding:0.2rem 0.55rem; cursor:pointer;
+        white-space:nowrap; transition:all 0.2s; }
+    .photo-caption .dl:hover { background:var(--gold); }
     .photo-item img { cursor:zoom-in; }
     /* Lightbox */
     .lb-overlay { position:fixed; inset:0; z-index:10010; background:rgba(0,0,0,0.92); display:none;
@@ -553,6 +555,10 @@
     .lb-overlay img { max-width:100%; max-height:90vh; border-radius:8px; box-shadow:0 10px 50px rgba(0,0,0,0.6); }
     .lb-close { position:absolute; top:1rem; right:1rem; background:rgba(0,0,0,0.6); color:#fff; border:none;
         width:42px; height:42px; border-radius:50%; font-size:1.4rem; cursor:pointer; }
+    .lb-dl { position:absolute; top:1rem; left:1rem; background:var(--gold); color:var(--navy); border:none;
+        padding:0.55rem 1rem; border-radius:50px; font-weight:700; font-size:0.85rem; letter-spacing:0.5px;
+        cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
+    .lb-dl:hover { background:var(--gold-light); }
 </style>
 
 
@@ -893,15 +899,40 @@
         return d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     }
 
+    // ---- Download helper (forces save with original filename, no Drive interstitial) ----
+    function downloadPhoto(url, filename) {
+        const fname = filename || 'photo.jpg';
+        fetch(url, { mode: 'cors' })
+            .then(r => { if (!r.ok) throw new Error('fetch failed'); return r.blob(); })
+            .then(blob => {
+                const u = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = u; a.download = fname;
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(u), 1000);
+            })
+            .catch(() => { window.open(url, '_blank'); });
+    }
+    window.downloadPhoto = downloadPhoto;
+
     // ---- Lightbox ----
     (function () {
         const o = document.createElement('div');
         o.className = 'lb-overlay';
-        o.innerHTML = '<button class="lb-close" aria-label="Close">&times;</button><img alt="">';
+        o.innerHTML = '<button class="lb-close" aria-label="Close">&times;</button><button class="lb-dl" type="button" title="Download">&#11015; Save</button><img alt="">';
         document.body.appendChild(o);
-        o.addEventListener('click', function () { o.classList.remove('show'); });
-        window.openLightbox = function (src) {
+        let current = { url: '', name: '' };
+        o.addEventListener('click', function (e) {
+            if (e.target.classList.contains('lb-dl')) {
+                e.stopPropagation();
+                downloadPhoto(current.url, current.name);
+                return;
+            }
+            o.classList.remove('show');
+        });
+        window.openLightbox = function (src, name) {
             o.querySelector('img').src = src;
+            current.url = src; current.name = name || 'photo.jpg';
             o.classList.add('show');
         };
     })();
@@ -958,13 +989,19 @@
                         img.loading = 'lazy';
                         img.src = row.thumbUrl || row.viewUrl;
                         img.alt = row.filename || 'photo';
-                        img.addEventListener('click', function () { window.openLightbox(row.viewUrl || row.thumbUrl); });
+                        const fullUrl = row.viewUrl || row.thumbUrl;
+                        const fname = row.filename || 'photo.jpg';
+                        img.addEventListener('click', function () { window.openLightbox(fullUrl, fname); });
                         cell.appendChild(img);
                         const cap = document.createElement('div');
                         cap.className = 'photo-caption';
                         cap.innerHTML =
                             '<span class="by">' + escHtml(row.uploader || 'Anonymous') + '</span>' +
-                            '<a class="dl" href="' + escHtml(row.downloadUrl || row.viewUrl) + '" title="Download" download>&#11015;</a>';
+                            '<button class="dl" type="button" title="Download">&#11015; Save</button>';
+                        cap.querySelector('.dl').addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            window.downloadPhoto(fullUrl, fname);
+                        });
                         cell.appendChild(cap);
                         grid.appendChild(cell);
                     });
@@ -1059,8 +1096,7 @@
         }
 
         async function uploadOne(file, idx) {
-            const uploader = (nameInput.value || '').trim();
-            if (!uploader) throw new Error('name required');
+            const uploader = (nameInput.value || '').trim() || 'Anonymous';
             setProgressRow(idx, file.name, 'Preparing…');
             const prepped = await resizeToJpeg(file);
             setProgressRow(idx, file.name, 'Uploading ' + prepped.sizeKB + ' KB…');
@@ -1082,12 +1118,6 @@
         }
 
         async function handleFiles(fileList) {
-            const uploader = (nameInput.value || '').trim();
-            if (!uploader) {
-                status.textContent = 'Please enter your name first.';
-                nameInput.focus();
-                return;
-            }
             const files = Array.from(fileList).filter(f => f.type && f.type.indexOf('image/') === 0);
             if (!files.length) { status.textContent = 'No image files selected.'; return; }
             status.textContent = 'Uploading ' + files.length + ' photo' + (files.length === 1 ? '' : 's') + '…';
