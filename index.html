@@ -485,7 +485,7 @@
 <section id="gallery">
     <div class="section-header">
         <h2>The Weekend in Pictures</h2>
-        <p>Photos from the family &mdash; grouped by day</p>
+        <p>Photos from the family</p>
         <div class="accent-line"></div>
     </div>
 
@@ -895,7 +895,7 @@
         if (window.exifr) return Promise.resolve(window.exifr);
         return new Promise((resolve, reject) => {
             const s = document.createElement('script');
-            s.src = 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js';
+            s.src = 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/full.umd.js';
             s.onload = () => resolve(window.exifr);
             s.onerror = reject;
             document.head.appendChild(s);
@@ -969,57 +969,43 @@
                     daysEl.innerHTML = '';
                     return;
                 }
-                const buckets = new Map();
-                rows.forEach(row => {
-                    let d = null;
-                    if (row.captureDate) { const p = new Date(row.captureDate); if (!isNaN(p)) d = p; }
-                    if (!d && row.timestamp) { const p = new Date(row.timestamp); if (!isNaN(p)) d = p; }
-                    const key = d ? dayKey(d) : 'unsorted';
-                    if (!buckets.has(key)) buckets.set(key, { date: d, items: [] });
-                    buckets.get(key).items.push(row);
-                });
-                const keys = Array.from(buckets.keys());
-                keys.sort((a, b) => {
-                    if (a === 'unsorted') return 1;
-                    if (b === 'unsorted') return -1;
-                    return a < b ? -1 : a > b ? 1 : 0;
+                // Sort earliest → latest using best-known date (EXIF capture
+                // date if we have it, else upload timestamp). No day buckets —
+                // one continuous chronological grid.
+                rows.sort((a, b) => {
+                    const da = new Date(a.captureDate || a.timestamp).getTime();
+                    const db = new Date(b.captureDate || b.timestamp).getTime();
+                    return da - db;
                 });
 
                 statusEl.style.display = 'none';
                 daysEl.innerHTML = '';
-                keys.forEach(k => {
-                    const bucket = buckets.get(k);
-                    const heading = (k === 'unsorted') ? 'Recently added' : formatDay(bucket.date);
-                    const dayDiv = document.createElement('div');
-                    dayDiv.innerHTML =
-                        '<div style="color:var(--gold);font-family:\'Playfair Display\',serif;font-size:1.3rem;margin:0 1rem 0.75rem;">' +
-                        escHtml(heading) + '</div><div class="photo-grid"></div>';
-                    const grid = dayDiv.querySelector('.photo-grid');
-                    bucket.items.forEach(row => {
-                        const cell = document.createElement('div');
-                        cell.className = 'photo-item';
-                        const img = document.createElement('img');
-                        img.loading = 'lazy';
-                        img.src = row.thumbUrl || row.viewUrl;
-                        img.alt = row.filename || 'photo';
-                        const fullUrl = row.viewUrl || row.thumbUrl;
-                        const fname = row.filename || 'photo.jpg';
-                        img.addEventListener('click', function () { window.openLightbox(fullUrl, fname); });
-                        cell.appendChild(img);
-                        const cap = document.createElement('div');
-                        cap.className = 'photo-caption';
-                        cap.innerHTML =
-                            '<span class="by">' + escHtml(row.uploader || 'Anonymous') + '</span>' +
-                            '<button class="dl" type="button" title="Download">&#11015; Save</button>';
-                        cap.querySelector('.dl').addEventListener('click', function (e) {
-                            e.stopPropagation();
-                            window.downloadPhoto(fullUrl, fname);
-                        });
-                        cell.appendChild(cap);
-                        grid.appendChild(cell);
+                const grid = document.createElement('div');
+                grid.className = 'photo-grid';
+                rows.forEach(row => {
+                    const cell = document.createElement('div');
+                    cell.className = 'photo-item';
+                    const img = document.createElement('img');
+                    img.loading = 'lazy';
+                    img.src = row.thumbUrl || row.viewUrl;
+                    img.alt = row.filename || 'photo';
+                    const fullUrl = row.viewUrl || row.thumbUrl;
+                    const fname = row.filename || 'photo.jpg';
+                    img.addEventListener('click', function () { window.openLightbox(fullUrl, fname); });
+                    cell.appendChild(img);
+                    const cap = document.createElement('div');
+                    cap.className = 'photo-caption';
+                    cap.innerHTML =
+                        '<span class="by">' + escHtml(row.uploader || 'Anonymous') + '</span>' +
+                        '<button class="dl" type="button" title="Download">&#11015; Save</button>';
+                    cap.querySelector('.dl').addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        window.downloadPhoto(fullUrl, fname);
                     });
-                    daysEl.appendChild(dayDiv);
+                    cell.appendChild(cap);
+                    grid.appendChild(cell);
                 });
+                daysEl.appendChild(grid);
             })
             .catch(err => {
                 console.warn('photos load failed', err);
@@ -1074,6 +1060,11 @@
                 const d = exif && (exif.DateTimeOriginal || exif.CreateDate);
                 if (d instanceof Date && !isNaN(d)) captureDate = d.toISOString();
             } catch (e) { /* ignore */ }
+            // Fallback: use the file's lastModified (OS file mtime). For photos
+            // shared straight from Camera Roll this is usually the capture time.
+            if (!captureDate && file.lastModified) {
+                captureDate = new Date(file.lastModified).toISOString();
+            }
 
             const img = await readImageBitmap(file);
             let w = img.naturalWidth, h = img.naturalHeight;
